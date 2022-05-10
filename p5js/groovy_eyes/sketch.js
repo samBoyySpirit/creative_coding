@@ -61,6 +61,7 @@ function Eye(trackingx, trackingy, clr) {
             endShape();
             
             rotate(this.angle);
+            noStroke();
             fill(clr);
             ellipse(10,0, 40,40);
             pop();
