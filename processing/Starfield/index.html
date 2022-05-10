@@ -1,0 +1,138 @@
+<!Doctype: HTML w/ Processing>
+
+<html>
+
+  <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Processing Demo</title>
+      <script type="text/javascript" src="js/processing.js"></script>
+  </head>
+  
+  <body>
+    <h1>Starfield mockup.</h1>
+    <p>Inspired by the visuals of warp drive during space travel in Star Trek and 2001: A Space Odyssey.</p>
+    
+    <script type="text/processing">
+    
+Star[] starWarp = new Star[1000];
+float speed;
+boolean recording = false;
+
+void setup(){
+    size(900,900);
+    for(int i=0;i < starWarp.length;i++){
+    
+    starWarp[i] = new Star();
+    }
+}
+
+void keyPressed(){
+    if (key == 'r' || key == 'R'){
+    recording = !recording; 
+    }
+}
+
+void draw(){
+    speed = map(mouseX, 0, width, 0, 100);
+    
+    background(0);
+    
+    translate(width/2,height/2);
+    if (mousePressed == true){
+    for(int i=0;i <starWarp.length;i++){      
+        starWarp[i].update();
+        starWarp[i].colorWarpSpeed();
+        }
+    }
+    else{
+    for(int i=0;i < (starWarp.length/10);i++){      
+        starWarp[i].update();
+        starWarp[i].show();
+    }
+    }
+    
+    if (recording){
+    saveFrame("output/warp_speed_############.png");
+    }
+}
+
+class Star {
+
+    float x;
+    float y;
+    float z;
+    float pz;
+    float rc;
+    float gc;
+    float bc;
+  
+  Star() {
+    x = random(-width, width);
+    y = random(-height, height);
+    z =  random(width);
+    }
+    
+    void update(){
+      z = z - speed;
+      if(z < 1){
+        z = width;
+        x = random(-width, width);
+        y = random(-height, height);
+        pz = z;
+        
+      }
+    }
+    
+    void show(){
+      
+      //rc = random(0,255);
+      //gc = random(0,255);
+      //bc = random(0,255);
+      fill(255);
+      noStroke();
+      
+      float sx = map(x/z,0,1,0,width);
+      float sy = map(y/z,0,1,0,height);
+      
+      float r = map(z, 0, width, 16, 0);
+      ellipse(sx,sy , r, r);
+      
+      //float px = map(x/pz, 0, 1, 0, width);
+      //float py = map(y/pz, 0, 1, 0, height);
+      
+      //pz = z;
+      
+      stroke(255);
+      //line(px, py, sx, sy);
+    }
+    
+    void colorWarpSpeed(){
+      
+      rc = random(0,255);
+      gc = random(0,255);
+      bc = random(0,255);
+      fill(rc, gc, bc);
+      noStroke();
+      
+      float sx = map(x/z,0,1,0,width);
+      float sy = map(y/z,0,1,0,height);
+      
+      float r = map(z, 0, width, 16, 0);
+      ellipse(sx,sy , r, r);
+      
+      float px = map(x/pz, 0, 1, 0, width);
+      float py = map(y/pz, 0, 1, 0, height);
+      
+      //pz = z;
+      
+      stroke(rc, gc, bc);
+      line(px, py, sx, sy);
+    }
+}
+
+    </script>
+    <canvas id="sketch" style="border: 1px solid black;"></canvas>
+    
+  </body>
+  
+</html>
