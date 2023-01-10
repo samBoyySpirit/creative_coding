@@ -3,7 +3,7 @@ let c;
 let fr = 3000;
 
 function setup(){
-    createCanvas(1500,1300);
+    createCanvas(1500,900);
     background(0);
     frameRate(fr);
 }
